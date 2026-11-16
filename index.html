@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="QuizNova by Malik Gulzaib is a fun, interactive quiz website for testing your knowledge." />
+  <meta name="author" content="Malik Gulzaib" />
+  <title>QuizNova by Malik Gulzaib — Challenge Your Mind</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b14;
+      --panel: #111827;
+      --panel-2: #172033;
+      --text: #f4f7ff;
+      --muted: #9aa8bf;
+      --accent: #8b7cff;
+      --accent-2: #42d6c5;
+      --border: rgba(255,255,255,.09);
+      --good: #35d49a;
+      --bad: #ff7185;
+      --shadow: 0 22px 70px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(104,84,255,.18), transparent 30rem),
+        radial-gradient(circle at 90% 35%, rgba(40,208,190,.10), transparent 27rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 3px; }
+    .wrap { width: min(1080px, calc(100% - 40px)); margin: 0 auto; }
+    header { padding: 23px 0; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { display:flex; align-items:center; gap:11px; color:var(--text); text-decoration:none; font-weight:800; letter-spacing:.2px; font-size:1.22rem; }
+    .brand-mark { display:grid; place-items:center; width:39px; height:39px; border-radius:13px; background:linear-gradient(135deg,var(--accent),#4e9bff); box-shadow:0 8px 24px rgba(139,124,255,.3); }
+    .nav-note { color:var(--muted); font-size:.9rem; }
+    .creator-tag { display:inline-flex; align-items:center; gap:8px; margin-top:18px; padding:8px 12px; border:1px solid rgba(66,214,197,.25); border-radius:999px; color:#b9f6ec; background:rgba(66,214,197,.08); font-size:.86rem; font-weight:700; }
+    .creator-dot { width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px rgba(66,214,197,.7); }
+    .creator-section { margin-top:28px; padding:22px 24px; display:flex; align-items:center; justify-content:space-between; gap:18px; border:1px solid var(--border); border-radius:18px; background:linear-gradient(120deg,rgba(139,124,255,.10),rgba(66,214,197,.06)); }
+    .creator-section p { margin:5px 0 0; color:var(--muted); }
+    .creator-name { color:#c7c0ff; font-weight:800; white-space:nowrap; }
+    main { padding: 35px 0 75px; }
+    .hero { display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:36px; padding:48px 0 62px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border:1px solid rgba(139,124,255,.3); border-radius:999px; color:#c7c0ff; background:rgba(139,124,255,.09); font-size:.82rem; font-weight:700; }
+    h1 { max-width:700px; margin:18px 0 16px; font-size:clamp(2.7rem,6vw,4.7rem); line-height:1.04; letter-spacing:-.055em; }
+    .gradient-text { color:#b8aeff; background:linear-gradient(90deg,#b4aaff,#64e4d4); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero-copy { max-width:570px; margin:0; color:var(--muted); font-size:1.08rem; }
+    .hero-actions { display:flex; gap:13px; flex-wrap:wrap; margin-top:28px; }
+    .btn { border:0; border-radius:13px; padding:13px 19px; cursor:pointer; font-weight:750; transition:transform .18s ease,filter .18s ease,background .18s ease; }
+    .btn:hover { transform:translateY(-2px); filter:brightness(1.08); }
+    .btn-primary { color:white; background:linear-gradient(110deg,#7967f7,#4c94f5); box-shadow:0 10px 28px rgba(100,105,245,.25); }
+    .btn-secondary { color:var(--text); background:var(--panel-2); border:1px solid var(--border); }
+    .hero-art { min-height:285px; display:grid; place-items:center; position:relative; }
+    .orbit { width:260px; height:260px; border:1px solid rgba(159,150,255,.28); border-radius:50%; display:grid; place-items:center; box-shadow:0 0 90px rgba(117,99,255,.13),inset 0 0 50px rgba(117,99,255,.08); }
+    .orbit:before,.orbit:after { content:""; position:absolute; width:205px; height:205px; border:1px dashed rgba(87,222,211,.25); border-radius:50%; }
+    .orbit:after { width:145px; height:145px; border-style:solid; border-color:rgba(159,150,255,.24); }
+    .brain { position:relative; z-index:1; font-size:5.6rem; filter:drop-shadow(0 12px 28px rgba(122,108,255,.35)); }
+    .float-chip { position:absolute; padding:9px 13px; border-radius:12px; background:#172237; border:1px solid var(--border); box-shadow:var(--shadow); color:#d8e3f6; font-size:.83rem; font-weight:700; }
+    .chip-one { top:28px; right:0; } .chip-two { bottom:30px; left:0; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:20px; }
+    h2 { margin:0; font-size:clamp(1.55rem,3vw,2rem); letter-spacing:-.035em; }
+    .section-head p { margin:5px 0 0; color:var(--muted); }
+    .category-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .category-card { min-height:220px; padding:23px; display:flex; flex-direction:column; align-items:flex-start; border-radius:20px; border:1px solid var(--border); background:linear-gradient(155deg,rgba(25,36,58,.96),rgba(15,22,36,.96)); box-shadow:0 12px 35px rgba(0,0,0,.13); }
+    .category-icon { width:50px; height:50px; display:grid; place-items:center; border-radius:15px; font-size:1.45rem; background:rgba(139,124,255,.14); margin-bottom:17px; }
+    .category-card:nth-child(2) .category-icon { background:rgba(66,214,197,.12); }
+    .category-card:nth-child(3) .category-icon { background:rgba(255,183,95,.12); }
+    .category-card h3 { margin:0 0 5px; font-size:1.15rem; }
+    .category-card p { margin:0 0 17px; color:var(--muted); font-size:.92rem; }
+    .card-bottom { display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:auto; gap:10px; }
+    .question-count { color:#9daec6; font-size:.82rem; }
+    .card-button { padding:9px 13px; border-radius:10px; border:1px solid rgba(139,124,255,.35); background:rgba(139,124,255,.13); color:#d9d4ff; font-weight:750; cursor:pointer; }
+    .card-button:hover { background:rgba(139,124,255,.24); }
+    .quiz-shell { display:none; max-width:760px; margin:8px auto 0; padding:clamp(22px,4vw,36px); border:1px solid var(--border); border-radius:22px; background:rgba(17,24,39,.94); box-shadow:var(--shadow); }
+    .quiz-top { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:20px; }
+    .pill { padding:7px 11px; border-radius:999px; background:rgba(139,124,255,.13); color:#d3ccff; font-size:.82rem; font-weight:750; }
+    .timer { color:#c5d2e7; font-size:.9rem; font-weight:750; }
+    .progress-track { height:8px; border-radius:99px; overflow:hidden; background:#263248; margin-bottom:27px; }
+    .progress-fill { width:0%; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .25s ease; }
+    .question-meta { color:var(--muted); font-size:.88rem; margin-bottom:8px; }
+    .question-title { margin:0 0 22px; font-size:clamp(1.35rem,3vw,1.8rem); line-height:1.3; }
+    .answers { display:grid; gap:11px; }
+    .answer { text-align:left; width:100%; padding:14px 16px; border-radius:13px; border:1px solid var(--border); background:#182338; color:var(--text); cursor:pointer; transition:border .15s ease,background .15s ease; }
+    .answer:hover:not(:disabled) { border-color:rgba(139,124,255,.7); background:#202c45; }
+    .answer:disabled { cursor:default; opacity:1; }
+    .answer.correct { border-color:rgba(53,212,154,.65); background:rgba(53,212,154,.12); }
+    .answer.wrong { border-color:rgba(255,113,133,.65); background:rgba(255,113,133,.11); }
+    .feedback { min-height:27px; margin:15px 0 0; color:var(--muted); font-size:.92rem; }
+    .quiz-actions { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:18px; }
+    .results { display:none; max-width:650px; margin:8px auto 0; padding:35px; text-align:center; border-radius:22px; border:1px solid var(--border); background:rgba(17,24,39,.96); box-shadow:var(--shadow); }
+    .result-icon { font-size:3.2rem; }
+    .score-number { margin:5px 0; font-size:3.7rem; line-height:1.1; font-weight:850; letter-spacing:-.06em; }
+    .result-message { color:var(--muted); margin:0 auto 23px; max-width:430px; }
+    .result-actions { display:flex; justify-content:center; gap:11px; flex-wrap:wrap; }
+    .back-link { color:#bdb5ff; background:none; border:0; cursor:pointer; font-weight:750; padding:8px 0; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:25px; }
+    .stat { padding:14px 10px; border-radius:13px; background:#182338; }
+    .stat strong { display:block; font-size:1.25rem; }
+    .stat span { color:var(--muted); font-size:.8rem; }
+    footer { padding:22px 0 32px; border-top:1px solid var(--border); color:#8190a7; text-align:center; font-size:.86rem; }
+    .hidden { display:none !important; }
+    @media (max-width:760px) {
+      .hero { grid-template-columns:1fr; padding:25px 0 42px; gap:10px; }
+      .hero-art { min-height:230px; }
+      .orbit { width:205px; height:205px; }
+      .orbit:before { width:165px; height:165px; } .orbit:after { width:115px; height:115px; }
+      .brain { font-size:4.4rem; }
+      .chip-one { right:8%; top:15px; } .chip-two { left:6%; bottom:14px; }
+      .category-grid { grid-template-columns:1fr; }
+      .category-card { min-height:190px; }
+      .nav-note { display:none; }
+    }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="QuizNova home"><span class="brand-mark">✦</span> QuizNova</a>
+      <span class="nav-note">Created by Malik Gulzaib</span>
+    </div>
+  </header>
+
+  <main class="wrap" id="home">
+    <section class="hero" id="intro">
+      <div>
+        <span class="eyebrow">✧ YOUR KNOWLEDGE, YOUR CHALLENGE</span>
+        <h1>Think fast.<br /><span class="gradient-text">Learn more.</span></h1>
+        <p class="hero-copy">Ready to put your knowledge to the test? Choose a topic, answer fun questions, and see how much you know.</p>
+        <div class="creator-tag"><span class="creator-dot" aria-hidden="true"></span> Created by Malik Gulzaib</div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="exploreBtn">Explore quizzes <span aria-hidden="true">→</span></button>
+          <button class="btn btn-secondary" id="howBtn">How it works</button>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit"><div class="brain">🧠</div></div>
+        <div class="float-chip chip-one">⚡ Quick questions</div>
+        <div class="float-chip chip-two">🏆 Track your score</div>
+      </div>
+    </section>
+
+    <section id="categories">
+      <div class="section-head">
+        <div>
+          <h2>Choose your challenge</h2>
+          <p>Pick a category and see what you can do.</p>
+        </div>
+      </div>
+      <div class="category-grid">
+        <article class="category-card">
+          <div class="category-icon" aria-hidden="true">💻</div>
+          <h3>Computer Science</h3>
+          <p>Explore computers, coding, the web, and digital basics.</p>
+          <div class="card-bottom"><span class="question-count">5 questions · Beginner</span><button class="card-button" data-category="computer">Start quiz ↗</button></div>
+        </article>
+        <article class="category-card">
+          <div class="category-icon" aria-hidden="true">🌍</div>
+          <h3>General Knowledge</h3>
+          <p>Try questions about places, nature, and the world.</p>
+          <div class="card-bottom"><span class="question-count">5 questions · Beginner</span><button class="card-button" data-category="general">Start quiz ↗</button></div>
+        </article>
+        <article class="category-card">
+          <div class="category-icon" aria-hidden="true">🔬</div>
+          <h3>Science</h3>
+          <p>Discover interesting facts about science and our planet.</p>
+          <div class="card-bottom"><span class="question-count">5 questions · Beginner</span><button class="card-button" data-category="science">Start quiz ↗</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="quiz-shell" id="quiz" aria-live="polite">
+      <div class="quiz-top">
+        <span class="pill" id="categoryLabel">Computer Science</span>
+        <span class="timer" id="timer">⏱ 20 seconds</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="question-meta" id="questionMeta">QUESTION 1 OF 5</div>
+      <h2 class="question-title" id="questionTitle">Question goes here</h2>
+      <div class="answers" id="answers"></div>
+      <p class="feedback" id="feedback" aria-live="polite"></p>
+      <div class="quiz-actions">
+        <button class="back-link" id="exitBtn">← Exit quiz</button>
+        <button class="btn btn-primary hidden" id="nextBtn">Next question →</button>
+      </div>
+    </section>
+
+    <section class="results" id="results" aria-live="polite">
+      <div class="result-icon" id="resultIcon">🏆</div>
+      <span class="eyebrow">QUIZ COMPLETED</span>
+      <h2 id="resultTitle" style="margin-top:15px">Well done!</h2>
+      <div class="score-number" id="scoreNumber">0/5</div>
+      <p class="result-message" id="resultMessage">Your result will appear here.</p>
+      <div class="stats">
+        <div class="stat"><strong id="correctStat">0</strong><span>Correct</span></div>
+        <div class="stat"><strong id="wrongStat">0</strong><span>Incorrect</span></div>
+        <div class="stat"><strong id="percentStat">0%</strong><span>Score</span></div>
+      </div>
+      <div class="result-actions" style="margin-top:25px">
+        <button class="btn btn-primary" id="retryBtn">Play again ↻</button>
+        <button class="btn btn-secondary" id="homeBtn">Other quizzes</button>
+      </div>
+    </section>
+
+    <section class="creator-section" aria-label="About the creator">
+      <div>
+        <h2 style="font-size:1.2rem">Meet the creator</h2>
+        <p>QuizNova is a learning project designed and created by a curious student.</p>
+      </div>
+      <div class="creator-name">Malik Gulzaib ✦</div>
+    </section>
+
+    <section id="how" style="margin-top:28px; padding:23px; border:1px solid var(--border); border-radius:18px; background:rgba(17,24,39,.58)">
+      <h2 style="font-size:1.3rem">How it works</h2>
+      <p style="color:var(--muted); margin-bottom:0">① Choose a quiz category. &nbsp; ② Select the best answer before time runs out. &nbsp; ③ Review your score and try again!</p>
+    </section>
+  </main>
+
+  <footer><div class="wrap">Made for curious minds · <strong>QuizNova</strong> <span aria-hidden="true">✦</span><br />Designed &amp; developed by <strong>Malik Gulzaib</strong> · © 2026</div></footer>
+
+  <script>
+    // Edit these questions to customize your quiz website.
+    const quizData = {
+      computer: {
+        title: "Computer Science",
+        questions: [
+          { q: "What does CPU stand for?", a: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Control Processing User"], correct: 0, explain: "CPU stands for Central Processing Unit. It carries out instructions in a computer." },
+          { q: "Which language is mainly used to structure web pages?", a: ["Python", "HTML", "C++", "SQL"], correct: 1, explain: "HTML provides the structure and content of a web page." },
+          { q: "What is the main job of CSS?", a: ["Store information", "Connect to Wi-Fi", "Style web pages", "Create databases"], correct: 2, explain: "CSS controls the appearance and layout of web pages." },
+          { q: "Which of these is a JavaScript use?", a: ["Making web pages interactive", "Charging a battery", "Printing paper", "Increasing screen size"], correct: 0, explain: "JavaScript can respond to clicks and make web pages interactive." },
+          { q: "Which two digits are used in the binary number system?", a: ["1 and 2", "0 and 1", "0 and 9", "2 and 10"], correct: 1, explain: "Binary is a base-2 number system that uses only 0 and 1." }
+        ]
+      },
+      general: {
+        title: "General Knowledge",
+        questions: [
+          { q: "What is the capital city of Pakistan?", a: ["Lahore", "Karachi", "Islamabad", "Peshawar"], correct: 2, explain: "Islamabad is the capital city of Pakistan." },
+          { q: "Which is the largest ocean on Earth?", a: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"], correct: 3, explain: "The Pacific Ocean is the largest and deepest of Earth's oceans." },
+          { q: "Which planet is known as the Red Planet?", a: ["Mars", "Venus", "Jupiter", "Mercury"], correct: 0, explain: "Mars looks reddish because of iron-rich dust on its surface." },
+          { q: "How many days are there in a leap year?", a: ["365", "366", "364", "360"], correct: 1, explain: "A leap year has 366 days, including February 29." },
+          { q: "Which natural satellite orbits Earth?", a: ["The Sun", "Europa", "The Moon", "Phobos"], correct: 2, explain: "The Moon is Earth's natural satellite." }
+        ]
+      },
+      science: {
+        title: "Science",
+        questions: [
+          { q: "What is the unit of force?", a: ["Watt", "Newton", "Volt", "Metre"], correct: 1, explain: "Force is measured in newtons, named after scientist Isaac Newton." },
+          { q: "What is the chemical formula for water?", a: ["CO₂", "O₂", "H₂O", "NaCl"], correct: 2, explain: "A water molecule contains two hydrogen atoms and one oxygen atom." },
+          { q: "Which star is closest to Earth?", a: ["Sirius", "The Sun", "Polaris", "Vega"], correct: 1, explain: "The Sun is the star at the centre of our solar system and the closest star to Earth." },
+          { q: "How many chambers does a human heart have?", a: ["Two", "Three", "Four", "Five"], correct: 2, explain: "The human heart has four chambers: two atria and two ventricles." },
+          { q: "What do plants absorb from the air for photosynthesis?", a: ["Oxygen", "Carbon dioxide", "Helium", "Hydrogen"], correct: 1, explain: "Plants take in carbon dioxide and use light energy during photosynthesis." }
+        ]
+      }
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const intro = $("intro");
+    const categories = $("categories");
+    const quiz = $("quiz");
+    const results = $("results");
+    let activeKey = "computer";
+    let activeQuestions = [];
+    let current = 0;
+    let score = 0;
+    let answered = false;
+    let secondsLeft = 20;
+    let timerId = null;
+
+    function stopTimer() {
+      if (timerId !== null) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+    }
+
+    function showHome() {
+      stopTimer();
+      intro.classList.remove("hidden");
+      categories.classList.remove("hidden");
+      quiz.style.display = "none";
+      results.style.display = "none";
+      $("how").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function startQuiz(key) {
+      activeKey = key;
+      activeQuestions = quizData[key].questions;
+      current = 0;
+      score = 0;
+      intro.classList.add("hidden");
+      categories.classList.add("hidden");
+      $("how").classList.add("hidden");
+      results.style.display = "none";
+      quiz.style.display = "block";
+      renderQuestion();
+      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderQuestion() {
+      stopTimer();
+      answered = false;
+      const item = activeQuestions[current];
+      $("categoryLabel").textContent = quizData[activeKey].title;
+      $("questionMeta").textContent = `QUESTION ${current + 1} OF ${activeQuestions.length}`;
+      $("questionTitle").textContent = item.q;
+      $("progressFill").style.width = `${(current / activeQuestions.length) * 100}%`;
+      $("progressTrack").setAttribute("aria-valuenow", String(Math.round((current / activeQuestions.length) * 100)));
+      $("feedback").textContent = "Choose the answer you think is right.";
+      $("nextBtn").classList.add("hidden");
+      const answers = $("answers");
+      answers.innerHTML = "";
+      item.a.forEach((choice, index) => {
+        const button = document.createElement("button");
+        button.className = "answer";
+        button.type = "button";
+        button.textContent = `${String.fromCharCode(65 + index)}. ${choice}`;
+        button.addEventListener("click", () => chooseAnswer(index));
+        answers.appendChild(button);
+      });
+      secondsLeft = 20;
+      updateTimer();
+      timerId = setInterval(() => {
+        secondsLeft -= 1;
+        updateTimer();
+        if (secondsLeft <= 0) chooseAnswer(-1);
+      }, 1000);
+    }
+
+    function updateTimer() {
+      $("timer").textContent = `⏱ ${secondsLeft} second${secondsLeft === 1 ? "" : "s"} left`;
+      $("timer").style.color = secondsLeft <= 5 ? "var(--bad)" : "#c5d2e7";
+    }
+
+    function chooseAnswer(index) {
+      if (answered) return;
+      answered = true;
+      stopTimer();
+      const item = activeQuestions[current];
+      const buttons = Array.from($("answers").querySelectorAll("button"));
+      buttons.forEach((button, i) => {
+        button.disabled = true;
+        if (i === item.correct) button.classList.add("correct");
+        else if (i === index) button.classList.add("wrong");
+      });
+      if (index === item.correct) {
+        score += 1;
+        $("feedback").textContent = `✓ That's right! ${item.explain}`;
+        $("feedback").style.color = "var(--good)";
+      } else if (index === -1) {
+        $("feedback").textContent = `Time is up! ${item.explain}`;
+        $("feedback").style.color = "var(--bad)";
+      } else {
+        $("feedback").textContent = `Not quite. ${item.explain}`;
+        $("feedback").style.color = "var(--bad)";
+      }
+      $("nextBtn").textContent = current === activeQuestions.length - 1 ? "See my results →" : "Next question →";
+      $("nextBtn").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      if (!answered) return;
+      current += 1;
+      if (current < activeQuestions.length) renderQuestion();
+      else showResults();
+    }
+
+    function showResults() {
+      stopTimer();
+      quiz.style.display = "none";
+      results.style.display = "block";
+      const total = activeQuestions.length;
+      const percent = Math.round((score / total) * 100);
+      $("scoreNumber").textContent = `${score}/${total}`;
+      $("correctStat").textContent = String(score);
+      $("wrongStat").textContent = String(total - score);
+      $("percentStat").textContent = `${percent}%`;
+      $("resultIcon").textContent = percent === 100 ? "🏆" : percent >= 60 ? "🎉" : "💡";
+      $("resultTitle").textContent = percent === 100 ? "Perfect score!" : percent >= 60 ? "Great work!" : "Keep learning!";
+      $("resultMessage").textContent = percent === 100 ? "Amazing! You answered every question correctly." : percent >= 60 ? "Nice effort. Review what you learned and try for an even higher score." : "Every attempt helps you learn. Give it another try and see your score improve.";
+      results.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    document.querySelectorAll("[data-category]").forEach((button) => {
+      button.addEventListener("click", () => startQuiz(button.dataset.category));
+    });
+    $("exploreBtn").addEventListener("click", () => $("categories").scrollIntoView({ behavior: "smooth" }));
+    $("howBtn").addEventListener("click", () => $("how").scrollIntoView({ behavior: "smooth" }));
+    $("nextBtn").addEventListener("click", nextQuestion);
+    $("exitBtn").addEventListener("click", showHome);
+    $("retryBtn").addEventListener("click", () => startQuiz(activeKey));
+    $("homeBtn").addEventListener("click", showHome);
+  </script>
+</body>
+</html>
