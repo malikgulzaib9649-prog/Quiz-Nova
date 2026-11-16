@@ -1,403 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="QuizNova by Malik Gulzaib is a fun, interactive quiz website for testing your knowledge." />
-  <meta name="author" content="Malik Gulzaib" />
-  <title>QuizNova by Malik Gulzaib — Challenge Your Mind</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #080b14;
-      --panel: #111827;
-      --panel-2: #172033;
-      --text: #f4f7ff;
-      --muted: #9aa8bf;
-      --accent: #8b7cff;
-      --accent-2: #42d6c5;
-      --border: rgba(255,255,255,.09);
-      --good: #35d49a;
-      --bad: #ff7185;
-      --shadow: 0 22px 70px rgba(0,0,0,.35);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 15% 8%, rgba(104,84,255,.18), transparent 30rem),
-        radial-gradient(circle at 90% 35%, rgba(40,208,190,.10), transparent 27rem),
-        var(--bg);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.55;
-    }
-    button { font: inherit; }
-    button:focus-visible, a:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 3px; }
-    .wrap { width: min(1080px, calc(100% - 40px)); margin: 0 auto; }
-    header { padding: 23px 0; }
-    .nav { display:flex; align-items:center; justify-content:space-between; gap:20px; }
-    .brand { display:flex; align-items:center; gap:11px; color:var(--text); text-decoration:none; font-weight:800; letter-spacing:.2px; font-size:1.22rem; }
-    .brand-mark { display:grid; place-items:center; width:39px; height:39px; border-radius:13px; background:linear-gradient(135deg,var(--accent),#4e9bff); box-shadow:0 8px 24px rgba(139,124,255,.3); }
-    .nav-note { color:var(--muted); font-size:.9rem; }
-    .creator-tag { display:inline-flex; align-items:center; gap:8px; margin-top:18px; padding:8px 12px; border:1px solid rgba(66,214,197,.25); border-radius:999px; color:#b9f6ec; background:rgba(66,214,197,.08); font-size:.86rem; font-weight:700; }
-    .creator-dot { width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px rgba(66,214,197,.7); }
-    .creator-section { margin-top:28px; padding:22px 24px; display:flex; align-items:center; justify-content:space-between; gap:18px; border:1px solid var(--border); border-radius:18px; background:linear-gradient(120deg,rgba(139,124,255,.10),rgba(66,214,197,.06)); }
-    .creator-section p { margin:5px 0 0; color:var(--muted); }
-    .creator-name { color:#c7c0ff; font-weight:800; white-space:nowrap; }
-    main { padding: 35px 0 75px; }
-    .hero { display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:36px; padding:48px 0 62px; }
-    .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border:1px solid rgba(139,124,255,.3); border-radius:999px; color:#c7c0ff; background:rgba(139,124,255,.09); font-size:.82rem; font-weight:700; }
-    h1 { max-width:700px; margin:18px 0 16px; font-size:clamp(2.7rem,6vw,4.7rem); line-height:1.04; letter-spacing:-.055em; }
-    .gradient-text { color:#b8aeff; background:linear-gradient(90deg,#b4aaff,#64e4d4); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-    .hero-copy { max-width:570px; margin:0; color:var(--muted); font-size:1.08rem; }
-    .hero-actions { display:flex; gap:13px; flex-wrap:wrap; margin-top:28px; }
-    .btn { border:0; border-radius:13px; padding:13px 19px; cursor:pointer; font-weight:750; transition:transform .18s ease,filter .18s ease,background .18s ease; }
-    .btn:hover { transform:translateY(-2px); filter:brightness(1.08); }
-    .btn-primary { color:white; background:linear-gradient(110deg,#7967f7,#4c94f5); box-shadow:0 10px 28px rgba(100,105,245,.25); }
-    .btn-secondary { color:var(--text); background:var(--panel-2); border:1px solid var(--border); }
-    .hero-art { min-height:285px; display:grid; place-items:center; position:relative; }
-    .orbit { width:260px; height:260px; border:1px solid rgba(159,150,255,.28); border-radius:50%; display:grid; place-items:center; box-shadow:0 0 90px rgba(117,99,255,.13),inset 0 0 50px rgba(117,99,255,.08); }
-    .orbit:before,.orbit:after { content:""; position:absolute; width:205px; height:205px; border:1px dashed rgba(87,222,211,.25); border-radius:50%; }
-    .orbit:after { width:145px; height:145px; border-style:solid; border-color:rgba(159,150,255,.24); }
-    .brain { position:relative; z-index:1; font-size:5.6rem; filter:drop-shadow(0 12px 28px rgba(122,108,255,.35)); }
-    .float-chip { position:absolute; padding:9px 13px; border-radius:12px; background:#172237; border:1px solid var(--border); box-shadow:var(--shadow); color:#d8e3f6; font-size:.83rem; font-weight:700; }
-    .chip-one { top:28px; right:0; } .chip-two { bottom:30px; left:0; }
-    .section-head { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:20px; }
-    h2 { margin:0; font-size:clamp(1.55rem,3vw,2rem); letter-spacing:-.035em; }
-    .section-head p { margin:5px 0 0; color:var(--muted); }
-    .category-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-    .category-card { min-height:220px; padding:23px; display:flex; flex-direction:column; align-items:flex-start; border-radius:20px; border:1px solid var(--border); background:linear-gradient(155deg,rgba(25,36,58,.96),rgba(15,22,36,.96)); box-shadow:0 12px 35px rgba(0,0,0,.13); }
-    .category-icon { width:50px; height:50px; display:grid; place-items:center; border-radius:15px; font-size:1.45rem; background:rgba(139,124,255,.14); margin-bottom:17px; }
-    .category-card:nth-child(2) .category-icon { background:rgba(66,214,197,.12); }
-    .category-card:nth-child(3) .category-icon { background:rgba(255,183,95,.12); }
-    .category-card h3 { margin:0 0 5px; font-size:1.15rem; }
-    .category-card p { margin:0 0 17px; color:var(--muted); font-size:.92rem; }
-    .card-bottom { display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:auto; gap:10px; }
-    .question-count { color:#9daec6; font-size:.82rem; }
-    .card-button { padding:9px 13px; border-radius:10px; border:1px solid rgba(139,124,255,.35); background:rgba(139,124,255,.13); color:#d9d4ff; font-weight:750; cursor:pointer; }
-    .card-button:hover { background:rgba(139,124,255,.24); }
-    .quiz-shell { display:none; max-width:760px; margin:8px auto 0; padding:clamp(22px,4vw,36px); border:1px solid var(--border); border-radius:22px; background:rgba(17,24,39,.94); box-shadow:var(--shadow); }
-    .quiz-top { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:20px; }
-    .pill { padding:7px 11px; border-radius:999px; background:rgba(139,124,255,.13); color:#d3ccff; font-size:.82rem; font-weight:750; }
-    .timer { color:#c5d2e7; font-size:.9rem; font-weight:750; }
-    .progress-track { height:8px; border-radius:99px; overflow:hidden; background:#263248; margin-bottom:27px; }
-    .progress-fill { width:0%; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .25s ease; }
-    .question-meta { color:var(--muted); font-size:.88rem; margin-bottom:8px; }
-    .question-title { margin:0 0 22px; font-size:clamp(1.35rem,3vw,1.8rem); line-height:1.3; }
-    .answers { display:grid; gap:11px; }
-    .answer { text-align:left; width:100%; padding:14px 16px; border-radius:13px; border:1px solid var(--border); background:#182338; color:var(--text); cursor:pointer; transition:border .15s ease,background .15s ease; }
-    .answer:hover:not(:disabled) { border-color:rgba(139,124,255,.7); background:#202c45; }
-    .answer:disabled { cursor:default; opacity:1; }
-    .answer.correct { border-color:rgba(53,212,154,.65); background:rgba(53,212,154,.12); }
-    .answer.wrong { border-color:rgba(255,113,133,.65); background:rgba(255,113,133,.11); }
-    .feedback { min-height:27px; margin:15px 0 0; color:var(--muted); font-size:.92rem; }
-    .quiz-actions { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:18px; }
-    .results { display:none; max-width:650px; margin:8px auto 0; padding:35px; text-align:center; border-radius:22px; border:1px solid var(--border); background:rgba(17,24,39,.96); box-shadow:var(--shadow); }
-    .result-icon { font-size:3.2rem; }
-    .score-number { margin:5px 0; font-size:3.7rem; line-height:1.1; font-weight:850; letter-spacing:-.06em; }
-    .result-message { color:var(--muted); margin:0 auto 23px; max-width:430px; }
-    .result-actions { display:flex; justify-content:center; gap:11px; flex-wrap:wrap; }
-    .back-link { color:#bdb5ff; background:none; border:0; cursor:pointer; font-weight:750; padding:8px 0; }
-    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:25px; }
-    .stat { padding:14px 10px; border-radius:13px; background:#182338; }
-    .stat strong { display:block; font-size:1.25rem; }
-    .stat span { color:var(--muted); font-size:.8rem; }
-    footer { padding:22px 0 32px; border-top:1px solid var(--border); color:#8190a7; text-align:center; font-size:.86rem; }
-    .hidden { display:none !important; }
-    @media (max-width:760px) {
-      .hero { grid-template-columns:1fr; padding:25px 0 42px; gap:10px; }
-      .hero-art { min-height:230px; }
-      .orbit { width:205px; height:205px; }
-      .orbit:before { width:165px; height:165px; } .orbit:after { width:115px; height:115px; }
-      .brain { font-size:4.4rem; }
-      .chip-one { right:8%; top:15px; } .chip-two { left:6%; bottom:14px; }
-      .category-grid { grid-template-columns:1fr; }
-      .category-card { min-height:190px; }
-      .nav-note { display:none; }
-    }
-    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; } }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="QuizNova by Malik Gulzaib — a dark, interactive quiz challenge with 150 questions across three subjects.">
+<meta name="author" content="Malik Gulzaib">
+<meta name="theme-color" content="#090d18">
+<title>QuizNova by Malik Gulzaib — Challenge Your Mind</title>
+<style>
+:root{color-scheme:dark;--bg:#080b14;--panel:#111827;--panel2:#182338;--text:#f4f7ff;--muted:#9aa8bf;--accent:#8b7cff;--teal:#42d6c5;--good:#35d49a;--bad:#ff7185;--border:rgba(255,255,255,.1);--shadow:0 22px 70px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(circle at 12% 5%,rgba(104,84,255,.2),transparent 32rem),radial-gradient(circle at 95% 35%,rgba(40,208,190,.1),transparent 27rem),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}button{font:inherit}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid var(--teal);outline-offset:3px}.wrap{width:min(1100px,calc(100% - 36px));margin:auto}header{padding:20px 0}.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:11px;color:var(--text);text-decoration:none;font-size:1.25rem;font-weight:850;letter-spacing:.2px}.brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--accent),#4e9bff);box-shadow:0 8px 24px #8b7cff55}.nav-note{color:var(--muted);font-size:.9rem}.creator-tag{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 12px;border:1px solid #42d6c540;border-radius:999px;color:#b9f6ec;background:#42d6c510;font-size:.86rem;font-weight:750}.dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px #42d6c5}.hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:30px;padding:44px 0 50px}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #8b7cff55;border-radius:999px;color:#c7c0ff;background:#8b7cff14;font-size:.82rem;font-weight:750}h1{margin:18px 0 14px;font-size:clamp(2.7rem,6vw,4.7rem);line-height:1.04;letter-spacing:-.055em}.gradient{color:#b8aeff;background:linear-gradient(90deg,#b4aaff,#64e4d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}.hero-copy{max-width:620px;color:var(--muted);font-size:1.06rem}.hero-actions,.row-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{border:0;border-radius:13px;padding:12px 18px;cursor:pointer;font-weight:800;transition:transform .2s ease,filter .2s ease,box-shadow .2s ease}.btn:hover{transform:translateY(-3px);filter:brightness(1.1);box-shadow:0 10px 28px #0005}.primary{color:#fff;background:linear-gradient(110deg,#7967f7,#4c94f5);box-shadow:0 10px 28px #6469f540}.secondary{color:var(--text);background:var(--panel2);border:1px solid var(--border)}.hero-art{min-height:260px;display:grid;place-items:center;position:relative}.orbit{width:245px;height:245px;border:1px solid #9f96ff55;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 90px #7563ff22,inset 0 0 50px #7563ff14;animation:float 6s ease-in-out infinite}.orbit:before,.orbit:after{content:"";position:absolute;width:195px;height:195px;border:1px dashed #57ded155;border-radius:50%}.orbit:after{width:140px;height:140px;border-style:solid;border-color:#9f96ff40}.brain{position:relative;z-index:1;font-size:5.4rem;filter:drop-shadow(0 12px 28px #7a6cff77)}.chip{position:absolute;padding:9px 13px;border-radius:12px;background:#172237;border:1px solid var(--border);box-shadow:var(--shadow);font-size:.83rem;font-weight:750}.chip1{top:22px;right:0}.chip2{bottom:22px;left:0}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:12px 0 18px}h2{margin:0;font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.035em}.section-head p,.muted{color:var(--muted);margin:5px 0 0}.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{min-height:230px;padding:22px;display:flex;flex-direction:column;align-items:flex-start;border-radius:20px;border:1px solid var(--border);background:linear-gradient(155deg,#19243af5,#0f1624f5);box-shadow:0 12px 35px #0002;transition:transform .22s ease,border-color .22s ease}.card:hover{transform:translateY(-5px);border-color:#8b7cff77}.card-icon{width:50px;height:50px;display:grid;place-items:center;border-radius:15px;font-size:1.45rem;background:#8b7cff22;margin-bottom:14px}.card:nth-child(2) .card-icon{background:#42d6c51e}.card:nth-child(3) .card-icon{background:#ffb75f1e}.card h3{margin:0 0 5px;font-size:1.13rem}.card p{margin:0 0 14px;color:var(--muted);font-size:.91rem}.card-foot{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}.small{font-size:.8rem;color:#9daec6}.card-btn{padding:9px 12px;border-radius:10px;border:1px solid #8b7cff66;background:#8b7cff20;color:#ded9ff;font-weight:800;cursor:pointer}.card-btn:hover{background:#8b7cff40}.high-score{margin-top:10px;color:#b9f6ec;font-size:.82rem}
+.panel{display:none;max-width:760px;margin:26px auto 0;padding:clamp(22px,4vw,32px);border:1px solid var(--border);border-radius:22px;background:#111827f2;box-shadow:var(--shadow);animation:rise .35s ease both}@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.pill{padding:7px 11px;border-radius:999px;background:#8b7cff22;color:#d3ccff;font-size:.82rem;font-weight:800}.close{border:0;background:transparent;color:var(--muted);font-size:1.35rem;cursor:pointer}.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.mode{padding:15px 12px;border-radius:14px;border:1px solid var(--border);background:#182338;color:var(--text);text-align:left;cursor:pointer;transition:.2s}.mode strong{display:block;margin-bottom:3px}.mode span{color:var(--muted);font-size:.8rem}.mode.active{border-color:var(--accent);background:#8b7cff24;box-shadow:inset 0 0 0 1px #8b7cff55}.setup-info{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.9rem;padding:13px 0;border-top:1px solid var(--border)}.setup-start{width:100%;margin-top:10px}.quiz-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.timer{font-size:.9rem;font-weight:800;color:#c5d2e7}.progress-track{height:8px;border-radius:99px;overflow:hidden;background:#263248;margin-bottom:24px}.progress-fill{width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--teal));transition:width .28s ease}.q-meta{color:var(--muted);font-size:.86rem;margin-bottom:8px}.q-title{font-size:clamp(1.3rem,3vw,1.75rem);line-height:1.32;margin:0 0 20px}.answers{display:grid;gap:10px}.answer{text-align:left;width:100%;padding:14px 16px;border-radius:13px;border:1px solid var(--border);background:#182338;color:var(--text);cursor:pointer;transition:transform .15s,border .15s,background .15s}.answer:hover:not(:disabled){border-color:#8b7cffaa;background:#202c45;transform:translateX(3px)}.answer:disabled{cursor:default;opacity:1}.answer.correct{border-color:#35d49aaa;background:#35d49a20}.answer.wrong{border-color:#ff7185aa;background:#ff71851c}.feedback{min-height:28px;margin:15px 0 0;color:var(--muted);font-size:.92rem}.quiz-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}.text-btn{color:#bdb5ff;background:none;border:0;cursor:pointer;font-weight:800;padding:8px 0}.hidden{display:none!important}.results{display:none;max-width:700px;margin:26px auto 0;padding:34px;text-align:center;border-radius:22px;border:1px solid var(--border);background:#111827f5;box-shadow:var(--shadow);animation:rise .35s ease both}.result-icon{font-size:3rem}.score-number{margin:5px 0;font-size:3.7rem;line-height:1.1;font-weight:900;letter-spacing:-.06em}.result-message{max-width:480px;margin:0 auto 20px;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:23px}.stat{padding:13px 8px;border-radius:13px;background:#182338}.stat strong{display:block;font-size:1.24rem}.stat span{color:var(--muted);font-size:.8rem}.result-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:23px}.creator{margin:30px 0;padding:21px 23px;display:flex;justify-content:space-between;align-items:center;gap:15px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(120deg,#8b7cff18,#42d6c510)}.creator p{margin:5px 0 0;color:var(--muted)}.creator strong{color:#c7c0ff;white-space:nowrap}#how{margin:28px 0;padding:22px;border:1px solid var(--border);border-radius:18px;background:#11182799}#how p{color:var(--muted);margin-bottom:0}footer{padding:24px 0 34px;border-top:1px solid var(--border);color:#8190a7;text-align:center;font-size:.86rem}.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:11px 16px;border:1px solid var(--border);border-radius:12px;background:#182338;color:var(--text);box-shadow:var(--shadow);transition:.25s;z-index:5}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:25px 0 40px;gap:8px}.hero-art{min-height:220px}.orbit{width:205px;height:205px}.orbit:before{width:165px;height:165px}.orbit:after{width:115px;height:115px}.brain{font-size:4.4rem}.chip1{right:5%;top:10px}.chip2{left:4%;bottom:10px}.category-grid{grid-template-columns:1fr}.card{min-height:195px}.nav-note{display:none}.mode-grid{grid-template-columns:1fr}.creator{align-items:flex-start;flex-direction:column}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="#home" aria-label="QuizNova home"><span class="brand-mark">✦</span> QuizNova</a>
-      <span class="nav-note">Created by Malik Gulzaib</span>
-    </div>
-  </header>
-
-  <main class="wrap" id="home">
-    <section class="hero" id="intro">
-      <div>
-        <span class="eyebrow">✧ YOUR KNOWLEDGE, YOUR CHALLENGE</span>
-        <h1>Think fast.<br /><span class="gradient-text">Learn more.</span></h1>
-        <p class="hero-copy">Ready to put your knowledge to the test? Choose a topic, answer fun questions, and see how much you know.</p>
-        <div class="creator-tag"><span class="creator-dot" aria-hidden="true"></span> Created by Malik Gulzaib</div>
-        <div class="hero-actions">
-          <button class="btn btn-primary" id="exploreBtn">Explore quizzes <span aria-hidden="true">→</span></button>
-          <button class="btn btn-secondary" id="howBtn">How it works</button>
-        </div>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="orbit"><div class="brain">🧠</div></div>
-        <div class="float-chip chip-one">⚡ Quick questions</div>
-        <div class="float-chip chip-two">🏆 Track your score</div>
-      </div>
-    </section>
-
-    <section id="categories">
-      <div class="section-head">
-        <div>
-          <h2>Choose your challenge</h2>
-          <p>Pick a category and see what you can do.</p>
-        </div>
-      </div>
-      <div class="category-grid">
-        <article class="category-card">
-          <div class="category-icon" aria-hidden="true">💻</div>
-          <h3>Computer Science</h3>
-          <p>Explore computers, coding, the web, and digital basics.</p>
-          <div class="card-bottom"><span class="question-count">5 questions · Beginner</span><button class="card-button" data-category="computer">Start quiz ↗</button></div>
-        </article>
-        <article class="category-card">
-          <div class="category-icon" aria-hidden="true">🌍</div>
-          <h3>General Knowledge</h3>
-          <p>Try questions about places, nature, and the world.</p>
-          <div class="card-bottom"><span class="question-count">5 questions · Beginner</span><button class="card-button" data-category="general">Start quiz ↗</button></div>
-        </article>
-        <article class="category-card">
-          <div class="category-icon" aria-hidden="true">🔬</div>
-          <h3>Science</h3>
-          <p>Discover interesting facts about science and our planet.</p>
-          <div class="card-bottom"><span class="question-count">5 questions · Beginner</span><button class="card-button" data-category="science">Start quiz ↗</button></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="quiz-shell" id="quiz" aria-live="polite">
-      <div class="quiz-top">
-        <span class="pill" id="categoryLabel">Computer Science</span>
-        <span class="timer" id="timer">⏱ 20 seconds</span>
-      </div>
-      <div class="progress-track" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="question-meta" id="questionMeta">QUESTION 1 OF 5</div>
-      <h2 class="question-title" id="questionTitle">Question goes here</h2>
-      <div class="answers" id="answers"></div>
-      <p class="feedback" id="feedback" aria-live="polite"></p>
-      <div class="quiz-actions">
-        <button class="back-link" id="exitBtn">← Exit quiz</button>
-        <button class="btn btn-primary hidden" id="nextBtn">Next question →</button>
-      </div>
-    </section>
-
-    <section class="results" id="results" aria-live="polite">
-      <div class="result-icon" id="resultIcon">🏆</div>
-      <span class="eyebrow">QUIZ COMPLETED</span>
-      <h2 id="resultTitle" style="margin-top:15px">Well done!</h2>
-      <div class="score-number" id="scoreNumber">0/5</div>
-      <p class="result-message" id="resultMessage">Your result will appear here.</p>
-      <div class="stats">
-        <div class="stat"><strong id="correctStat">0</strong><span>Correct</span></div>
-        <div class="stat"><strong id="wrongStat">0</strong><span>Incorrect</span></div>
-        <div class="stat"><strong id="percentStat">0%</strong><span>Score</span></div>
-      </div>
-      <div class="result-actions" style="margin-top:25px">
-        <button class="btn btn-primary" id="retryBtn">Play again ↻</button>
-        <button class="btn btn-secondary" id="homeBtn">Other quizzes</button>
-      </div>
-    </section>
-
-    <section class="creator-section" aria-label="About the creator">
-      <div>
-        <h2 style="font-size:1.2rem">Meet the creator</h2>
-        <p>QuizNova is a learning project designed and created by a curious student.</p>
-      </div>
-      <div class="creator-name">Malik Gulzaib ✦</div>
-    </section>
-
-    <section id="how" style="margin-top:28px; padding:23px; border:1px solid var(--border); border-radius:18px; background:rgba(17,24,39,.58)">
-      <h2 style="font-size:1.3rem">How it works</h2>
-      <p style="color:var(--muted); margin-bottom:0">① Choose a quiz category. &nbsp; ② Select the best answer before time runs out. &nbsp; ③ Review your score and try again!</p>
-    </section>
-  </main>
-
-  <footer><div class="wrap">Made for curious minds · <strong>QuizNova</strong> <span aria-hidden="true">✦</span><br />Designed &amp; developed by <strong>Malik Gulzaib</strong> · © 2026</div></footer>
-
-  <script>
-    // Edit these questions to customize your quiz website.
-    const quizData = {
-      computer: {
-        title: "Computer Science",
-        questions: [
-          { q: "What does CPU stand for?", a: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Control Processing User"], correct: 0, explain: "CPU stands for Central Processing Unit. It carries out instructions in a computer." },
-          { q: "Which language is mainly used to structure web pages?", a: ["Python", "HTML", "C++", "SQL"], correct: 1, explain: "HTML provides the structure and content of a web page." },
-          { q: "What is the main job of CSS?", a: ["Store information", "Connect to Wi-Fi", "Style web pages", "Create databases"], correct: 2, explain: "CSS controls the appearance and layout of web pages." },
-          { q: "Which of these is a JavaScript use?", a: ["Making web pages interactive", "Charging a battery", "Printing paper", "Increasing screen size"], correct: 0, explain: "JavaScript can respond to clicks and make web pages interactive." },
-          { q: "Which two digits are used in the binary number system?", a: ["1 and 2", "0 and 1", "0 and 9", "2 and 10"], correct: 1, explain: "Binary is a base-2 number system that uses only 0 and 1." }
-        ]
-      },
-      general: {
-        title: "General Knowledge",
-        questions: [
-          { q: "What is the capital city of Pakistan?", a: ["Lahore", "Karachi", "Islamabad", "Peshawar"], correct: 2, explain: "Islamabad is the capital city of Pakistan." },
-          { q: "Which is the largest ocean on Earth?", a: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"], correct: 3, explain: "The Pacific Ocean is the largest and deepest of Earth's oceans." },
-          { q: "Which planet is known as the Red Planet?", a: ["Mars", "Venus", "Jupiter", "Mercury"], correct: 0, explain: "Mars looks reddish because of iron-rich dust on its surface." },
-          { q: "How many days are there in a leap year?", a: ["365", "366", "364", "360"], correct: 1, explain: "A leap year has 366 days, including February 29." },
-          { q: "Which natural satellite orbits Earth?", a: ["The Sun", "Europa", "The Moon", "Phobos"], correct: 2, explain: "The Moon is Earth's natural satellite." }
-        ]
-      },
-      science: {
-        title: "Science",
-        questions: [
-          { q: "What is the unit of force?", a: ["Watt", "Newton", "Volt", "Metre"], correct: 1, explain: "Force is measured in newtons, named after scientist Isaac Newton." },
-          { q: "What is the chemical formula for water?", a: ["CO₂", "O₂", "H₂O", "NaCl"], correct: 2, explain: "A water molecule contains two hydrogen atoms and one oxygen atom." },
-          { q: "Which star is closest to Earth?", a: ["Sirius", "The Sun", "Polaris", "Vega"], correct: 1, explain: "The Sun is the star at the centre of our solar system and the closest star to Earth." },
-          { q: "How many chambers does a human heart have?", a: ["Two", "Three", "Four", "Five"], correct: 2, explain: "The human heart has four chambers: two atria and two ventricles." },
-          { q: "What do plants absorb from the air for photosynthesis?", a: ["Oxygen", "Carbon dioxide", "Helium", "Hydrogen"], correct: 1, explain: "Plants take in carbon dioxide and use light energy during photosynthesis." }
-        ]
-      }
-    };
-
-    const $ = (id) => document.getElementById(id);
-    const intro = $("intro");
-    const categories = $("categories");
-    const quiz = $("quiz");
-    const results = $("results");
-    let activeKey = "computer";
-    let activeQuestions = [];
-    let current = 0;
-    let score = 0;
-    let answered = false;
-    let secondsLeft = 20;
-    let timerId = null;
-
-    function stopTimer() {
-      if (timerId !== null) {
-        clearInterval(timerId);
-        timerId = null;
-      }
-    }
-
-    function showHome() {
-      stopTimer();
-      intro.classList.remove("hidden");
-      categories.classList.remove("hidden");
-      quiz.style.display = "none";
-      results.style.display = "none";
-      $("how").classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function startQuiz(key) {
-      activeKey = key;
-      activeQuestions = quizData[key].questions;
-      current = 0;
-      score = 0;
-      intro.classList.add("hidden");
-      categories.classList.add("hidden");
-      $("how").classList.add("hidden");
-      results.style.display = "none";
-      quiz.style.display = "block";
-      renderQuestion();
-      quiz.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    function renderQuestion() {
-      stopTimer();
-      answered = false;
-      const item = activeQuestions[current];
-      $("categoryLabel").textContent = quizData[activeKey].title;
-      $("questionMeta").textContent = `QUESTION ${current + 1} OF ${activeQuestions.length}`;
-      $("questionTitle").textContent = item.q;
-      $("progressFill").style.width = `${(current / activeQuestions.length) * 100}%`;
-      $("progressTrack").setAttribute("aria-valuenow", String(Math.round((current / activeQuestions.length) * 100)));
-      $("feedback").textContent = "Choose the answer you think is right.";
-      $("nextBtn").classList.add("hidden");
-      const answers = $("answers");
-      answers.innerHTML = "";
-      item.a.forEach((choice, index) => {
-        const button = document.createElement("button");
-        button.className = "answer";
-        button.type = "button";
-        button.textContent = `${String.fromCharCode(65 + index)}. ${choice}`;
-        button.addEventListener("click", () => chooseAnswer(index));
-        answers.appendChild(button);
-      });
-      secondsLeft = 20;
-      updateTimer();
-      timerId = setInterval(() => {
-        secondsLeft -= 1;
-        updateTimer();
-        if (secondsLeft <= 0) chooseAnswer(-1);
-      }, 1000);
-    }
-
-    function updateTimer() {
-      $("timer").textContent = `⏱ ${secondsLeft} second${secondsLeft === 1 ? "" : "s"} left`;
-      $("timer").style.color = secondsLeft <= 5 ? "var(--bad)" : "#c5d2e7";
-    }
-
-    function chooseAnswer(index) {
-      if (answered) return;
-      answered = true;
-      stopTimer();
-      const item = activeQuestions[current];
-      const buttons = Array.from($("answers").querySelectorAll("button"));
-      buttons.forEach((button, i) => {
-        button.disabled = true;
-        if (i === item.correct) button.classList.add("correct");
-        else if (i === index) button.classList.add("wrong");
-      });
-      if (index === item.correct) {
-        score += 1;
-        $("feedback").textContent = `✓ That's right! ${item.explain}`;
-        $("feedback").style.color = "var(--good)";
-      } else if (index === -1) {
-        $("feedback").textContent = `Time is up! ${item.explain}`;
-        $("feedback").style.color = "var(--bad)";
-      } else {
-        $("feedback").textContent = `Not quite. ${item.explain}`;
-        $("feedback").style.color = "var(--bad)";
-      }
-      $("nextBtn").textContent = current === activeQuestions.length - 1 ? "See my results →" : "Next question →";
-      $("nextBtn").classList.remove("hidden");
-    }
-
-    function nextQuestion() {
-      if (!answered) return;
-      current += 1;
-      if (current < activeQuestions.length) renderQuestion();
-      else showResults();
-    }
-
-    function showResults() {
-      stopTimer();
-      quiz.style.display = "none";
-      results.style.display = "block";
-      const total = activeQuestions.length;
-      const percent = Math.round((score / total) * 100);
-      $("scoreNumber").textContent = `${score}/${total}`;
-      $("correctStat").textContent = String(score);
-      $("wrongStat").textContent = String(total - score);
-      $("percentStat").textContent = `${percent}%`;
-      $("resultIcon").textContent = percent === 100 ? "🏆" : percent >= 60 ? "🎉" : "💡";
-      $("resultTitle").textContent = percent === 100 ? "Perfect score!" : percent >= 60 ? "Great work!" : "Keep learning!";
-      $("resultMessage").textContent = percent === 100 ? "Amazing! You answered every question correctly." : percent >= 60 ? "Nice effort. Review what you learned and try for an even higher score." : "Every attempt helps you learn. Give it another try and see your score improve.";
-      results.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    document.querySelectorAll("[data-category]").forEach((button) => {
-      button.addEventListener("click", () => startQuiz(button.dataset.category));
-    });
-    $("exploreBtn").addEventListener("click", () => $("categories").scrollIntoView({ behavior: "smooth" }));
-    $("howBtn").addEventListener("click", () => $("how").scrollIntoView({ behavior: "smooth" }));
-    $("nextBtn").addEventListener("click", nextQuestion);
-    $("exitBtn").addEventListener("click", showHome);
-    $("retryBtn").addEventListener("click", () => startQuiz(activeKey));
-    $("homeBtn").addEventListener("click", showHome);
-  </script>
-</body>
-</html>
+<header><div class="wrap nav"><a class="brand" href="#home"><span class="brand-mark">✦</span>QuizNova</a><span class="nav-note">Created by Malik Gulzaib</span></div></header>
+<main class="wrap" id="home">
+<section class="hero" id="intro"><div><span class="eyebrow">✧ YOUR KNOWLEDGE, YOUR CHALLENGE</span><h1>Think fast.<br><span class="gradient">Learn more.</span></h1><p class="hero-copy">Choose a subject, select your difficulty, and take on 20 randomly selected questions. Can you earn a new personal best?</p><div class="creator-tag"><span class="dot"></span> Created by Malik Gulzaib</div><div class="hero-actions"><button class="btn primary" id="exploreBtn">Explore quizzes →</button><button class="btn secondary" id="howBtn">How it works</button></div></div><div class="hero-art" aria-hidden="true"><div class="orbit"><div class="brain">🧠</div></div><div class="chip chip1">⚡ 150 questions</div><div class="chip chip2">🏆 Personal bests</div></div></section>
+<section id="categories"><div class="section-head"><div><h2>Choose your challenge</h2><p>Three subjects · 50 questions in each · 20 per attempt</p></div></div><div class="category-grid">
+<article class="card"><div class="card-icon">💻</div><h3>Computer Science</h3><p>Programming, algorithms, databases, networks and web technology.</p><div class="card-foot"><span class="small">50-question bank</span><button class="card-btn" data-category="computer">Choose mode ↗</button></div><div class="high-score" id="best-computer">🏆 Best: Not played yet</div></article>
+<article class="card"><div class="card-icon">🌍</div><h3>General Knowledge</h3><p>Geography, history, world facts and international knowledge.</p><div class="card-foot"><span class="small">50-question bank</span><button class="card-btn" data-category="general">Choose mode ↗</button></div><div class="high-score" id="best-general">🏆 Best: Not played yet</div></article>
+<article class="card"><div class="card-icon">🔬</div><h3>Science</h3><p>Physics, chemistry, biology, Earth science and space.</p><div class="card-foot"><span class="small">50-question bank</span><button class="card-btn" data-category="science">Choose mode ↗</button></div><div class="high-score" id="best-science">🏆 Best: Not played yet</div></article>
+</div></section>
+<section class="panel" id="setup" aria-live="polite"><div class="panel-head"><div><span class="pill" id="setupCategory">Choose difficulty</span><h2 style="margin-top:10px">Set your challenge</h2><p class="muted">Select a level. Every attempt uses a fresh random selection.</p></div><button class="close" id="closeSetup" aria-label="Close">×</button></div><div class="mode-grid"><button class="mode" data-mode="easy"><strong>🌱 Easy</strong><span>Build confidence</span></button><button class="mode active" data-mode="medium"><strong>⚡ Medium</strong><span>A balanced challenge</span></button><button class="mode" data-mode="hard"><strong>🔥 Hard</strong><span>20 advanced questions</span></button></div><div class="setup-info"><span>📝 20 questions per attempt</span><span>⏱ 20 seconds per question</span><span>🎯 1 point per correct answer</span></div><button class="btn primary setup-start" id="startChallenge">Start challenge →</button></section>
+<section class="panel" id="quiz" aria-live="polite"><div class="quiz-top"><span class="pill" id="categoryLabel">Computer Science</span><span class="timer" id="timer">⏱ 20 seconds</span></div><div class="progress-track" id="progressTrack" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div><div class="q-meta" id="questionMeta">QUESTION 1 OF 20</div><h2 class="q-title" id="questionTitle">Question appears here</h2><div class="answers" id="answers"></div><p class="feedback" id="feedback" aria-live="polite"></p><div class="quiz-actions"><button class="text-btn" id="exitBtn">← Exit quiz</button><button class="btn primary hidden" id="nextBtn">Next question →</button></div></section>
+<section class="results" id="results" aria-live="polite"><div class="result-icon" id="resultIcon">🏆</div><span class="eyebrow">CHALLENGE COMPLETED</span><h2 id="resultTitle" style="margin-top:14px">Well done!</h2><div class="score-number" id="scoreNumber">0/20</div><p class="result-message" id="resultMessage">Your result will appear here.</p><div class="stats"><div class="stat"><strong id="correctStat">0</strong><span>Correct</span></div><div class="stat"><strong id="wrongStat">0</strong><span>Incorrect</span></div><div class="stat"><strong id="percentStat">0%</strong><span>Score</span></div></div><p class="muted" id="bestMessage"></p><div class="result-actions"><button class="btn primary" id="retryBtn">Try again ↻</button><button class="btn secondary" id="shareBtn">Share result ↗</button><button class="btn secondary" id="homeBtn">Other quizzes</button></div></section>
+<section class="creator"><div><h2 style="font-size:1.2rem">Meet the creator</h2><p>QuizNova is a learning project designed and built by a curious student.</p></div><strong>Malik Gulzaib ✦</strong></section>
+<section id="how"><h2 style="font-size:1.3rem">How it works</h2><p>① Choose a subject. ② Select Easy, Medium or Hard. ③ Answer 20 random questions. ④ Check your score, beat your personal best and share your result!</p></section>
+</main><footer><div class="wrap">Made for curious minds · <strong>QuizNova</strong> ✦<br>Designed &amp; developed by <strong>Malik Gulzaib</strong> · © 2026</div></footer><div class="toast" id="toast" role="status"></div>
+<script>
+const quizData = {"computer":[{"level":"easy","q":"What does CPU stand for?","correct":"Central Processing Unit","wrong":["Computer Personal Unit","Central Program Utility","Control Processing User"],"explain":"The CPU is the main processor that executes instructions."},{"level":"easy","q":"Which two digits are used in the binary number system?","correct":"0 and 1","wrong":["1 and 2","0 and 9","2 and 10"],"explain":"Binary is a base-2 system, so it uses only 0 and 1."},{"level":"easy","q":"Which language describes the structure of a web page?","correct":"HTML","wrong":["Python","SQL","C++"],"explain":"HTML defines the structure and content of web pages."},{"level":"easy","q":"What is CSS mainly used for?","correct":"Styling web pages","wrong":["Storing passwords","Managing databases","Running the operating system"],"explain":"CSS controls visual presentation, layout and styling."},{"level":"easy","q":"Which language commonly adds interactivity to web pages?","correct":"JavaScript","wrong":["HTML","SQL","XML"],"explain":"JavaScript can respond to user actions and update page content."},{"level":"easy","q":"Which type of memory usually loses its contents when power is turned off?","correct":"RAM","wrong":["SSD","ROM","Blu-ray disc"],"explain":"RAM is volatile memory, so its contents are not retained without power."},{"level":"easy","q":"What does URL identify?","correct":"The address of a resource on the web","wrong":["A computer processor","A type of memory","A programming loop"],"explain":"A URL tells a browser where to find a web resource."},{"level":"easy","q":"Which one is a database query language?","correct":"SQL","wrong":["CSS","PNG","HTTP"],"explain":"SQL is used to query and manage relational databases."},{"level":"easy","q":"What does a loop do in programming?","correct":"Repeats a block of instructions","wrong":["Encrypts a file automatically","Draws a web page","Connects a computer to a printer"],"explain":"Loops repeat instructions while a condition or iteration rule applies."},{"level":"easy","q":"What does an IP address help identify?","correct":"A device or network interface on an IP network","wrong":["A website color palette","A file extension","A keyboard layout"],"explain":"IP addresses identify network interfaces so data can be routed."},{"level":"medium","q":"Binary search requires the data to be what before searching?","correct":"Sorted","wrong":["Encrypted","Compressed","Stored in a database"],"explain":"Binary search discards half the remaining range each step, which requires sorted data."},{"level":"medium","q":"Which data structure follows Last In, First Out (LIFO)?","correct":"Stack","wrong":["Queue","Linked list","Graph"],"explain":"A stack removes the most recently added item first."},{"level":"medium","q":"What is the main purpose of DNS?","correct":"Translate domain names into IP addresses","wrong":["Encrypt all website traffic","Compress images","Assign keyboard shortcuts"],"explain":"DNS resolves human-readable domain names to records such as IP addresses."},{"level":"medium","q":"What does HTTP status code 404 mean?","correct":"The requested resource was not found","wrong":["The request succeeded","The server moved permanently","The user is unauthorized"],"explain":"404 indicates that the server could not find the requested resource."},{"level":"medium","q":"In a relational database, what does a primary key do?","correct":"Uniquely identifies each row","wrong":["Stores multiple tables in one cell","Sorts every query automatically","Encrypts the whole database"],"explain":"A primary key uniquely identifies a row and cannot be duplicated."},{"level":"medium","q":"What is recursion?","correct":"A function calling itself","wrong":["A loop with no condition","A database backup","A network routing method"],"explain":"A recursive function calls itself and needs a base case to stop."},{"level":"medium","q":"What is the purpose of a compiler?","correct":"Translate source code into another form, often machine code","wrong":["Physically cool the CPU","Assign IP addresses","Design database tables"],"explain":"A compiler translates source code into a target form that can be executed or further processed."},{"level":"medium","q":"Which CSS concept includes content, padding, border and margin?","correct":"The box model","wrong":["The cascade tree","The grid algorithm","The flex protocol"],"explain":"The CSS box model describes the rectangular space occupied by an element."},{"level":"medium","q":"What is a semantic HTML element?","correct":"An element whose name describes the meaning of its content","wrong":["An element used only for colors","An element that runs server code","An element that stores browser history"],"explain":"Elements such as main, nav and article communicate the role of their content."},{"level":"medium","q":"What does an API provide?","correct":"A defined way for software components to communicate","wrong":["A physical network cable","A graphics card driver only","A method to increase screen brightness"],"explain":"An API specifies how one program can request services or data from another."},{"level":"medium","q":"What is a cache designed to do?","correct":"Keep frequently used data available for faster access","wrong":["Permanently delete old files","Replace the operating system","Convert binary to decimal"],"explain":"A cache stores copies of data to reduce access time or repeated work."},{"level":"medium","q":"How many bits are in an IPv4 address?","correct":"32","wrong":["16","64","128"],"explain":"IPv4 addresses contain 32 bits, usually written as four decimal octets."},{"level":"medium","q":"In Git, what does a commit represent?","correct":"A recorded snapshot of repository changes","wrong":["A deleted repository","A running web server","A password reset"],"explain":"A commit records a set of changes in the project history."},{"level":"medium","q":"In a relational table, what does a row usually represent?","correct":"One record or entity instance","wrong":["A database connection","A column heading only","A programming function"],"explain":"Each row stores one record, with columns describing its attributes."},{"level":"medium","q":"What is an algorithm?","correct":"A finite, well-defined sequence of steps to solve a problem","wrong":["A type of computer screen","A programming language only","A file storage format"],"explain":"An algorithm is a precise procedure for completing a task or solving a problem."},{"level":"hard","q":"What is the worst-case time complexity of merge sort?","correct":"O(n log n)","wrong":["O(n²)","O(log n)","O(2ⁿ)"],"explain":"Merge sort divides the input into levels and performs O(n) merging work per level."},{"level":"hard","q":"Which data structure is normally used by breadth-first search (BFS) to manage its frontier?","correct":"Queue","wrong":["Stack","Binary search tree","Hash table"],"explain":"BFS explores nodes in layers, so a first-in, first-out queue is used."},{"level":"hard","q":"Dijkstra’s shortest-path algorithm assumes edge weights are what?","correct":"Non-negative","wrong":["All negative","All exactly one","Prime numbers only"],"explain":"Dijkstra’s greedy choice is valid when edge weights are non-negative."},{"level":"hard","q":"A SHA-256 digest contains how many bits?","correct":"256","wrong":["128","160","512"],"explain":"SHA-256 produces a 256-bit hash value."},{"level":"hard","q":"Which ACID property means a transaction is treated as all-or-nothing?","correct":"Atomicity","wrong":["Consistency","Isolation","Durability"],"explain":"Atomicity means all operations in a transaction succeed together or the transaction is rolled back."},{"level":"hard","q":"Which normal form requires each field to contain an atomic value and each row to be unique?","correct":"First Normal Form (1NF)","wrong":["Second Normal Form (2NF)","Third Normal Form (3NF)","Boyce-Codd Normal Form only"],"explain":"1NF requires atomic column values and no repeating groups."},{"level":"hard","q":"In object-oriented programming, polymorphism allows what?","correct":"Different types to be used through a shared interface","wrong":["A program to run without memory","A database to have no keys","A loop to execute only once"],"explain":"Polymorphism lets different implementations respond through a common interface or base type."},{"level":"hard","q":"In JavaScript, event bubbling means an event moves in which direction through the DOM?","correct":"From the target element up toward its ancestors","wrong":["From the document down to the target only","Directly to every element at once","Only between sibling elements"],"explain":"During bubbling, an event propagates from the target through ancestor elements."},{"level":"hard","q":"What does CORS primarily control in web browsers?","correct":"Cross-origin requests made by web pages","wrong":["CPU scheduling","Image compression","Database normalization"],"explain":"CORS is a browser-enforced mechanism that uses server headers to permit or restrict cross-origin access."},{"level":"hard","q":"Which cryptographic approach uses a public key and a corresponding private key?","correct":"Asymmetric cryptography","wrong":["A single shared-key cipher only","A checksum only","Lossless compression"],"explain":"Asymmetric cryptography uses a mathematically related public/private key pair."},{"level":"hard","q":"Which sequence describes the TCP connection handshake?","correct":"SYN, SYN-ACK, ACK","wrong":["ACK, FIN, SYN","GET, POST, PUT","HELLO, DATA, CLOSE"],"explain":"TCP normally establishes a connection with SYN, SYN-ACK and ACK."},{"level":"hard","q":"Which DNS record type maps a host name to an IPv4 address?","correct":"A record","wrong":["MX record","TXT record","NS record"],"explain":"An A record contains an IPv4 address for a domain name."},{"level":"hard","q":"What is the average-case time complexity of searching for a key in a well-designed hash table?","correct":"O(1)","wrong":["O(log n)","O(n log n)","O(n²)"],"explain":"With a suitable hash function and controlled load factor, lookup is average-case constant time."},{"level":"hard","q":"What is a collision in a hash table?","correct":"Two different keys map to the same index or hash bucket","wrong":["A key is encrypted twice","A table contains no values","A database row has a null field"],"explain":"A collision happens when distinct keys map to the same table location."},{"level":"hard","q":"Which condition is necessary for a deadlock to be possible?","correct":"Circular wait","wrong":["Automatic garbage collection","A sorted array","A single process only"],"explain":"Circular wait is one of the four Coffman conditions associated with deadlock."},{"level":"hard","q":"In SQL, which clause filters groups after aggregation?","correct":"HAVING","wrong":["WHERE","ORDER BY","FROM"],"explain":"HAVING filters groups after GROUP BY and aggregate calculations."},{"level":"hard","q":"Which HTTP method is designed to be idempotent when replacing a resource representation?","correct":"PUT","wrong":["POST","CONNECT","PATCH in every possible use"],"explain":"A PUT request is defined to be idempotent: repeating the same request has the same intended effect."},{"level":"hard","q":"What is the decimal value of binary 101101?","correct":"45","wrong":["41","43","53"],"explain":"101101₂ = 32 + 8 + 4 + 1 = 45."},{"level":"hard","q":"In 8-bit two’s-complement representation, how is −5 written?","correct":"11111011","wrong":["00000101","11111010","10000101"],"explain":"Invert 00000101 to 11111010 and add 1, giving 11111011."},{"level":"hard","q":"A subnet mask written as /24 leaves how many host bits in an IPv4 address?","correct":"8","wrong":["16","24","32"],"explain":"IPv4 has 32 bits; 32 − 24 = 8 host bits."},{"level":"hard","q":"What is virtual memory used for by an operating system?","correct":"Providing processes with a virtual address space backed by memory and storage mechanisms","wrong":["Increasing the physical number of CPU cores","Replacing all file systems","Making every program run in the browser"],"explain":"Virtual memory maps process address spaces to physical memory and may use secondary storage for paging."},{"level":"hard","q":"What is constant folding in compiler optimization?","correct":"Evaluating constant expressions during compilation","wrong":["Removing every loop from a program","Changing all variables into strings","Compressing source files into ZIP archives"],"explain":"A compiler can compute expressions whose values are already known at compile time."},{"level":"hard","q":"Which SQL join returns every row from the left table and matching rows from the right table, using NULL when there is no match?","correct":"LEFT JOIN","wrong":["INNER JOIN","CROSS JOIN","RIGHT JOIN"],"explain":"LEFT JOIN preserves all left-table rows and fills unmatched right-side columns with NULL."},{"level":"hard","q":"Which statement about a binary min-heap is true?","correct":"Every parent key is less than or equal to its children","wrong":["Every node has exactly two children","The entire array is sorted","The root is always the largest key"],"explain":"A min-heap maintains the minimum element at the root through the parent-child ordering property."},{"level":"hard","q":"What is a race condition?","correct":"A result depends on the unpredictable timing of concurrent operations","wrong":["A program finishes before its timer","A CPU permanently stops","A database has no indexes"],"explain":"A race condition occurs when concurrent operations access shared state and timing changes the outcome."}],"general":[{"level":"easy","q":"What is the capital city of Pakistan?","correct":"Islamabad","wrong":["Lahore","Karachi","Peshawar"],"explain":"Islamabad is the capital city of Pakistan."},{"level":"easy","q":"Which is the largest ocean on Earth?","correct":"Pacific Ocean","wrong":["Atlantic Ocean","Indian Ocean","Arctic Ocean"],"explain":"The Pacific is the largest ocean by area."},{"level":"easy","q":"Which planet is known as the Red Planet?","correct":"Mars","wrong":["Venus","Jupiter","Mercury"],"explain":"Iron-rich dust gives Mars much of its reddish appearance."},{"level":"easy","q":"How many days are in a leap year?","correct":"366","wrong":["365","364","360"],"explain":"A leap year has 366 days, including February 29."},{"level":"easy","q":"Which natural satellite orbits Earth?","correct":"The Moon","wrong":["Europa","Phobos","The Sun"],"explain":"The Moon is Earth’s natural satellite."},{"level":"easy","q":"Which language is primarily spoken in Brazil?","correct":"Portuguese","wrong":["Spanish","French","Italian"],"explain":"Portuguese is the official and most widely spoken language in Brazil."},{"level":"easy","q":"What is the currency of Japan?","correct":"Yen","wrong":["Won","Yuan","Baht"],"explain":"Japan’s currency is the yen."},{"level":"easy","q":"On which continent is Egypt mostly located?","correct":"Africa","wrong":["Europe","South America","Australia"],"explain":"Most of Egypt lies in northeastern Africa, with the Sinai Peninsula in Asia."},{"level":"easy","q":"What is the name of the line at 0° latitude?","correct":"Equator","wrong":["Prime Meridian","Tropic of Cancer","Arctic Circle"],"explain":"The Equator is the line of latitude at 0 degrees."},{"level":"easy","q":"Which country is famous for the ancient pyramids at Giza?","correct":"Egypt","wrong":["Greece","Mexico","India"],"explain":"The Giza pyramid complex is near Cairo, Egypt."},{"level":"medium","q":"Which strait connects the Atlantic Ocean with the Mediterranean Sea?","correct":"Strait of Gibraltar","wrong":["Bering Strait","Malacca Strait","Hormuz Strait"],"explain":"The Strait of Gibraltar connects the Atlantic and Mediterranean."},{"level":"medium","q":"What is the world’s largest hot desert?","correct":"Sahara","wrong":["Gobi","Kalahari","Arabian Desert"],"explain":"The Sahara is the largest hot desert; Antarctica is larger as a polar desert."},{"level":"medium","q":"Which river flows through Baghdad?","correct":"Tigris","wrong":["Euphrates","Nile","Jordan"],"explain":"Baghdad is situated on the Tigris River."},{"level":"medium","q":"Which city is the headquarters of the United Nations?","correct":"New York City","wrong":["Geneva","Paris","Vienna"],"explain":"The UN headquarters is in New York City."},{"level":"medium","q":"Which mountain range contains Mount Everest?","correct":"Himalayas","wrong":["Andes","Alps","Rockies"],"explain":"Mount Everest is part of the Himalayas, on the Nepal–China border."},{"level":"medium","q":"Which country has the city of Istanbul?","correct":"Türkiye","wrong":["Greece","Bulgaria","Romania"],"explain":"Istanbul is a major city in Türkiye, spanning Europe and Asia."},{"level":"medium","q":"Which ocean lies between Africa, Asia and Australia?","correct":"Indian Ocean","wrong":["Atlantic Ocean","Arctic Ocean","Southern Ocean"],"explain":"The Indian Ocean is bordered by Africa, Asia and Australia."},{"level":"medium","q":"What is the capital of Canada?","correct":"Ottawa","wrong":["Toronto","Vancouver","Montreal"],"explain":"Ottawa, in Ontario, is Canada’s capital."},{"level":"medium","q":"Which international organization focuses on education, science and culture?","correct":"UNESCO","wrong":["WTO","OPEC","Interpol"],"explain":"UNESCO is the UN agency for education, science and culture."},{"level":"medium","q":"Which country is home to the ancient city of Petra?","correct":"Jordan","wrong":["Lebanon","Iraq","Iran"],"explain":"Petra is an archaeological city in southern Jordan."},{"level":"medium","q":"Which sea separates the Arabian Peninsula from northeastern Africa?","correct":"Red Sea","wrong":["Black Sea","Caspian Sea","Baltic Sea"],"explain":"The Red Sea lies between northeastern Africa and the Arabian Peninsula."},{"level":"medium","q":"Which continent contains the Andes Mountains?","correct":"South America","wrong":["Africa","Europe","Asia"],"explain":"The Andes extend along the western side of South America."},{"level":"medium","q":"What is the smallest independent country by area?","correct":"Vatican City","wrong":["Monaco","San Marino","Liechtenstein"],"explain":"Vatican City is the world’s smallest sovereign state by area."},{"level":"medium","q":"Which country is also known as the Netherlands?","correct":"The Netherlands","wrong":["Denmark","Belgium","Luxembourg"],"explain":"The Netherlands is the country’s official English name."},{"level":"medium","q":"Which instrument is used to measure atmospheric pressure?","correct":"Barometer","wrong":["Thermometer","Anemometer","Hygrometer"],"explain":"A barometer measures atmospheric pressure."},{"level":"hard","q":"In which year was the Treaty of Versailles signed?","correct":"1919","wrong":["1918","1920","1923"],"explain":"The Treaty of Versailles was signed on 28 June 1919."},{"level":"hard","q":"In which year was the Magna Carta sealed?","correct":"1215","wrong":["1066","1492","1648"],"explain":"King John sealed Magna Carta in 1215."},{"level":"hard","q":"The Suez Canal connects which two bodies of water?","correct":"Mediterranean Sea and Red Sea","wrong":["Black Sea and Caspian Sea","Arabian Sea and Persian Gulf","Atlantic Ocean and Pacific Ocean"],"explain":"The Suez Canal links the Mediterranean Sea with the Red Sea."},{"level":"hard","q":"Which strait separates the European and Asian sides of Istanbul?","correct":"Bosphorus","wrong":["Dardanelles","Gibraltar","Dover Strait"],"explain":"The Bosphorus runs through Istanbul and separates its European and Asian sides."},{"level":"hard","q":"Which is the largest landlocked country by area?","correct":"Kazakhstan","wrong":["Mongolia","Chad","Bolivia"],"explain":"Kazakhstan is the largest country without direct access to an ocean."},{"level":"hard","q":"Which lake is the world’s deepest freshwater lake?","correct":"Lake Baikal","wrong":["Lake Superior","Lake Victoria","Lake Tanganyika"],"explain":"Lake Baikal in Siberia reaches a depth of about 1,642 metres."},{"level":"hard","q":"The Panama Canal connects which oceans?","correct":"Atlantic and Pacific","wrong":["Indian and Atlantic","Arctic and Pacific","Southern and Indian"],"explain":"The Panama Canal links Atlantic-side and Pacific-side shipping routes."},{"level":"hard","q":"Which line of longitude is defined as 0°?","correct":"Prime Meridian","wrong":["International Date Line","Equator","Tropic of Capricorn"],"explain":"The Prime Meridian is the reference line at zero degrees longitude."},{"level":"hard","q":"Ancient Mesopotamia developed mainly between which rivers?","correct":"Tigris and Euphrates","wrong":["Nile and Congo","Indus and Ganges","Danube and Rhine"],"explain":"Mesopotamia means the land between the Tigris and Euphrates rivers."},{"level":"hard","q":"In which city was the ASEAN Declaration signed in 1967?","correct":"Bangkok","wrong":["Jakarta","Manila","Singapore"],"explain":"The ASEAN Declaration, also called the Bangkok Declaration, was signed in Bangkok."},{"level":"hard","q":"The African Union officially replaced which organization in 2002?","correct":"Organization of African Unity","wrong":["African Development Bank","East African Community","Pan-African Parliament"],"explain":"The African Union succeeded the Organization of African Unity in 2002."},{"level":"hard","q":"The Berlin Conference of 1884–1885 was primarily concerned with what?","correct":"European rules for colonization and trade in Africa","wrong":["The creation of the European Union","The end of the First World War","The independence of India"],"explain":"European powers discussed rules for claims and trade in Africa at the conference."},{"level":"hard","q":"Which country is located between France and Spain in the Pyrenees?","correct":"Andorra","wrong":["Monaco","San Marino","Liechtenstein"],"explain":"Andorra is a small sovereign state in the Pyrenees between France and Spain."},{"level":"hard","q":"The Atacama Desert is primarily located in which country?","correct":"Chile","wrong":["Peru","Namibia","Australia"],"explain":"The Atacama Desert lies mainly in northern Chile."},{"level":"hard","q":"Angel Falls, the world’s highest uninterrupted waterfall, is in which country?","correct":"Venezuela","wrong":["Brazil","Peru","Colombia"],"explain":"Angel Falls is in Canaima National Park in Venezuela."},{"level":"hard","q":"Which gulf lies between Iran and the Arabian Peninsula?","correct":"Persian Gulf","wrong":["Gulf of Aden","Gulf of Thailand","Gulf of Bothnia"],"explain":"The Persian Gulf is located between Iran and the Arabian Peninsula."},{"level":"hard","q":"Which country has the longest coastline in the world?","correct":"Canada","wrong":["Russia","Australia","Indonesia"],"explain":"Canada has the longest national coastline, bordering three oceans."},{"level":"hard","q":"Which ancient civilization built Machu Picchu?","correct":"Inca","wrong":["Maya","Aztec","Olmec"],"explain":"Machu Picchu was built by the Inca civilization in the Andes."},{"level":"hard","q":"Which city is located closest to the confluence of the Blue Nile and White Nile?","correct":"Khartoum","wrong":["Cairo","Addis Ababa","Juba"],"explain":"The Blue and White Nile meet in Khartoum, Sudan."},{"level":"hard","q":"Which country administers the island of Greenland?","correct":"Denmark","wrong":["Iceland","Norway","Canada"],"explain":"Greenland is an autonomous territory within the Kingdom of Denmark."},{"level":"hard","q":"Which sea is shrinking significantly due to river diversion for irrigation?","correct":"Aral Sea","wrong":["North Sea","Coral Sea","Bering Sea"],"explain":"Diversion of the Amu Darya and Syr Darya for irrigation caused the Aral Sea to shrink dramatically."},{"level":"hard","q":"Which mountain range forms a traditional geographical boundary between Europe and Asia?","correct":"Ural Mountains","wrong":["Appalachians","Atlas Mountains","Drakensberg"],"explain":"The Ural Mountains are commonly treated as part of the Europe–Asia boundary."},{"level":"hard","q":"Which country was formerly known as Ceylon?","correct":"Sri Lanka","wrong":["Myanmar","Thailand","Cambodia"],"explain":"Ceylon became the official name Sri Lanka in 1972."},{"level":"hard","q":"Which city hosted the first modern Olympic Games in 1896?","correct":"Athens","wrong":["Paris","London","Rome"],"explain":"The first modern Olympic Games were held in Athens in 1896."},{"level":"hard","q":"Which river passes through four national capitals in Europe?","correct":"Danube","wrong":["Rhine","Seine","Po"],"explain":"The Danube flows through or along the capitals Vienna, Bratislava, Budapest and Belgrade."}],"science":[{"level":"easy","q":"What is the SI unit of force?","correct":"Newton","wrong":["Watt","Volt","Metre"],"explain":"Force is measured in newtons (N)."},{"level":"easy","q":"What is the chemical formula for water?","correct":"H₂O","wrong":["CO₂","O₂","NaCl"],"explain":"Each water molecule contains two hydrogen atoms and one oxygen atom."},{"level":"easy","q":"Which star is closest to Earth?","correct":"The Sun","wrong":["Sirius","Polaris","Vega"],"explain":"The Sun is the nearest star to Earth."},{"level":"easy","q":"How many chambers does a human heart have?","correct":"Four","wrong":["Two","Three","Five"],"explain":"The human heart has two atria and two ventricles."},{"level":"easy","q":"Which gas do plants take in for photosynthesis?","correct":"Carbon dioxide","wrong":["Oxygen","Nitrogen","Helium"],"explain":"Plants use carbon dioxide, water and light energy to make sugars."},{"level":"easy","q":"What is the approximate chemical symbol for gold?","correct":"Au","wrong":["Ag","Gd","Go"],"explain":"Gold’s chemical symbol is Au, from the Latin aurum."},{"level":"easy","q":"Which part of a plant usually absorbs water from soil?","correct":"Roots","wrong":["Leaves","Flowers","Fruit"],"explain":"Roots absorb water and dissolved minerals from the soil."},{"level":"easy","q":"What is the boiling point of pure water at standard atmospheric pressure?","correct":"100°C","wrong":["0°C","50°C","212°C only"],"explain":"At 1 atmosphere, pure water boils at 100°C (212°F)."},{"level":"easy","q":"Which planet is best known for its prominent ring system?","correct":"Saturn","wrong":["Mercury","Mars","Venus"],"explain":"Saturn has the most prominent visible ring system in our solar system."},{"level":"easy","q":"What do we call animals that eat both plants and animals?","correct":"Omnivores","wrong":["Herbivores","Carnivores","Decomposers"],"explain":"Omnivores obtain food from both plant and animal sources."},{"level":"medium","q":"What is the approximate acceleration due to gravity near Earth’s surface?","correct":"9.8 m/s²","wrong":["3.0 m/s²","1.6 m/s²","98 m/s²"],"explain":"The standard approximate value of gravitational acceleration is 9.8 metres per second squared."},{"level":"medium","q":"Which cell organelle is the main site of aerobic respiration?","correct":"Mitochondrion","wrong":["Ribosome","Golgi apparatus","Lysosome"],"explain":"Mitochondria generate much of the ATP during aerobic cellular respiration."},{"level":"medium","q":"What is the pH of a neutral solution at about 25°C?","correct":"7","wrong":["0","5","14"],"explain":"At approximately 25°C, a neutral aqueous solution has pH 7."},{"level":"medium","q":"Which particle has a negative electric charge?","correct":"Electron","wrong":["Proton","Neutron","Alpha particle"],"explain":"An electron carries one elementary negative charge."},{"level":"medium","q":"What is the process by which a liquid changes into a gas at its surface?","correct":"Evaporation","wrong":["Condensation","Freezing","Deposition"],"explain":"Evaporation occurs when molecules escape from a liquid surface into the gas phase."},{"level":"medium","q":"Which blood component mainly transports oxygen?","correct":"Red blood cells","wrong":["Platelets","White blood cells","Plasma proteins only"],"explain":"Haemoglobin in red blood cells binds and transports most oxygen in blood."},{"level":"medium","q":"What is the most abundant gas in Earth’s dry atmosphere?","correct":"Nitrogen","wrong":["Oxygen","Carbon dioxide","Argon"],"explain":"Nitrogen makes up about 78% of dry air by volume."},{"level":"medium","q":"Which type of bond involves sharing electron pairs?","correct":"Covalent bond","wrong":["Ionic bond","Metallic bond","Hydrogen bond only"],"explain":"Covalent bonds form when atoms share electron pairs."},{"level":"medium","q":"What is the unit of electrical resistance?","correct":"Ohm","wrong":["Ampere","Watt","Tesla"],"explain":"Electrical resistance is measured in ohms (Ω)."},{"level":"medium","q":"Which blood vessel carries blood away from the heart?","correct":"Artery","wrong":["Vein","Capillary","Venule"],"explain":"Arteries carry blood away from the heart; veins carry it toward the heart."},{"level":"medium","q":"What is the name of the boundary around a cell that controls movement of substances in and out?","correct":"Cell membrane","wrong":["Cell wall only","Nucleus","Cytoplasm"],"explain":"The cell membrane is selectively permeable and regulates exchange with the environment."},{"level":"medium","q":"Which scientist formulated the three laws of motion?","correct":"Isaac Newton","wrong":["Albert Einstein","Michael Faraday","James Clerk Maxwell"],"explain":"Newton published his three laws of motion in 1687."},{"level":"medium","q":"What is the main function of enzymes in living organisms?","correct":"Speed up biochemical reactions","wrong":["Store genetic information","Form the cell wall","Carry oxygen in blood"],"explain":"Enzymes are biological catalysts that lower activation energy."},{"level":"medium","q":"Which layer of Earth is liquid and surrounds the solid inner core?","correct":"Outer core","wrong":["Crust","Mantle","Inner core"],"explain":"Earth’s outer core is liquid and surrounds the solid inner core."},{"level":"medium","q":"What is the approximate speed of light in a vacuum?","correct":"3 × 10⁸ m/s","wrong":["3 × 10⁶ m/s","3 × 10⁴ m/s","3 × 10¹⁰ m/s"],"explain":"Light travels at approximately 299,792,458 metres per second in a vacuum."},{"level":"hard","q":"A 12 V source is connected across a 4 Ω resistor. What current flows?","correct":"3 A","wrong":["0.33 A","8 A","48 A"],"explain":"Ohm’s law gives I = V/R = 12/4 = 3 amperes."},{"level":"hard","q":"What is the oxidation number of oxygen in most ordinary compounds?","correct":"−2","wrong":["−1","0","+2"],"explain":"Oxygen is usually assigned oxidation state −2, with notable exceptions such as peroxides."},{"level":"hard","q":"Which enzyme joins Okazaki fragments during DNA replication?","correct":"DNA ligase","wrong":["DNA helicase","DNA primase","RNA polymerase"],"explain":"DNA ligase seals nicks in the sugar-phosphate backbone, joining DNA fragments."},{"level":"hard","q":"Which law states that pressure and volume are inversely proportional for a fixed amount of gas at constant temperature?","correct":"Boyle’s law","wrong":["Charles’s law","Avogadro’s law","Graham’s law"],"explain":"Boyle’s law states that PV is constant when temperature and gas amount are fixed."},{"level":"hard","q":"What is the approximate pH of a 0.001 mol/L strong monoprotic acid solution?","correct":"3","wrong":["1","7","11"],"explain":"A 10⁻³ mol/L strong acid has [H⁺] approximately 10⁻³ mol/L, so pH is 3."},{"level":"hard","q":"Which organelle modifies, sorts and packages many proteins for transport?","correct":"Golgi apparatus","wrong":["Mitochondrion","Nucleolus","Chloroplast"],"explain":"The Golgi apparatus modifies and packages proteins and lipids into vesicles."},{"level":"hard","q":"In a eukaryotic cell, where does transcription of nuclear genes mainly occur?","correct":"Nucleus","wrong":["Ribosome","Lysosome","Cell membrane"],"explain":"Nuclear DNA is transcribed into RNA in the nucleus."},{"level":"hard","q":"What is the SI unit of frequency?","correct":"Hertz","wrong":["Joule","Pascal","Coulomb"],"explain":"Frequency is measured in hertz (Hz), equal to one cycle per second."},{"level":"hard","q":"Which particle determines the atomic number of an element?","correct":"Proton","wrong":["Neutron","Electron","Photon"],"explain":"The atomic number equals the number of protons in the nucleus."},{"level":"hard","q":"What is the hybridization of carbon in methane (CH₄)?","correct":"sp³","wrong":["sp","sp²","dsp²"],"explain":"Carbon forms four equivalent tetrahedral sigma bonds in methane, corresponding to sp³ hybridization."},{"level":"hard","q":"Which phenomenon explains the bending of light as it passes between materials?","correct":"Refraction","wrong":["Diffraction","Polarization","Interference"],"explain":"Refraction is the change in direction of light due to a change in wave speed between media."},{"level":"hard","q":"What is the name of the phase transition from gas directly to solid?","correct":"Deposition","wrong":["Sublimation","Condensation","Fusion"],"explain":"Deposition is the direct transition from gas to solid without becoming liquid."},{"level":"hard","q":"Which part of the nephron is primarily responsible for ultrafiltration of blood?","correct":"Glomerulus","wrong":["Loop of Henle","Collecting duct","Distal convoluted tubule"],"explain":"Blood pressure drives filtration from glomerular capillaries into Bowman’s capsule."},{"level":"hard","q":"Which molecule is the main immediate energy currency used by cells?","correct":"ATP","wrong":["DNA","Glucose only","NADP⁺"],"explain":"ATP stores and transfers usable energy for many cellular processes."},{"level":"hard","q":"If an object’s velocity doubles, its kinetic energy becomes how many times as large, with mass unchanged?","correct":"Four times","wrong":["Two times","Three times","Eight times"],"explain":"Kinetic energy is proportional to v², so doubling velocity makes it four times larger."},{"level":"hard","q":"Which isotope is commonly used in radiocarbon dating?","correct":"Carbon-14","wrong":["Carbon-12","Oxygen-16","Uranium-238"],"explain":"Carbon-14 decays over time and is used to estimate the age of once-living materials."},{"level":"hard","q":"Which equilibrium principle predicts that a system shifts to oppose an imposed change?","correct":"Le Chatelier’s principle","wrong":["Pauli exclusion principle","Huygens’ principle","Bernoulli’s principle"],"explain":"Le Chatelier’s principle describes how an equilibrium responds to changes in concentration, pressure or temperature."},{"level":"hard","q":"What is the approximate number of chromosomes in a typical human somatic cell?","correct":"46","wrong":["23","44","48"],"explain":"Most human somatic cells contain 46 chromosomes arranged in 23 pairs."},{"level":"hard","q":"Which type of electromagnetic radiation has the shortest wavelength among these options?","correct":"Gamma rays","wrong":["Microwaves","Visible light","Infrared"],"explain":"Gamma rays are at the short-wavelength, high-frequency end of the electromagnetic spectrum."},{"level":"hard","q":"Which process produces gametes with half the chromosome number?","correct":"Meiosis","wrong":["Mitosis","Binary fission","Budding"],"explain":"Meiosis reduces chromosome number by half to produce haploid cells."},{"level":"hard","q":"For a wave, if frequency doubles while speed stays constant, what happens to wavelength?","correct":"It becomes half as large","wrong":["It doubles","It stays the same","It becomes four times larger"],"explain":"Since v = fλ and v is constant, doubling f halves λ."},{"level":"hard","q":"Which scientist is associated with the uncertainty principle?","correct":"Werner Heisenberg","wrong":["Niels Bohr","Erwin Schrödinger","Max Planck"],"explain":"Heisenberg formulated the uncertainty principle in quantum mechanics."},{"level":"hard","q":"Which type of RNA carries amino acids to the ribosome during translation?","correct":"Transfer RNA (tRNA)","wrong":["Messenger RNA (mRNA)","Ribosomal RNA (rRNA)","MicroRNA"],"explain":"tRNA delivers specific amino acids to the ribosome by matching anticodons with mRNA codons."},{"level":"hard","q":"What is the oxidation process at an electrode called?","correct":"Oxidation occurs at the anode","wrong":["Oxidation occurs at the cathode","Reduction occurs at the anode in every cell","Neutralization occurs at both electrodes"],"explain":"The mnemonic AN OX states that oxidation occurs at the anode in both galvanic and electrolytic cells."},{"level":"hard","q":"Which quantity is conserved in an isolated system during an elastic collision?","correct":"Total kinetic energy and total momentum","wrong":["Kinetic energy only, but not momentum","Momentum only, but not kinetic energy","Neither quantity"],"explain":"An elastic collision conserves both total momentum and total kinetic energy."}]};
+const $ = id => document.getElementById(id);
+let activeKey='computer', activeMode='medium', activeQuestions=[], current=0, score=0, answered=false, secondsLeft=20, timerId=null, lastResult=null;
+const names={computer:'Computer Science',general:'General Knowledge',science:'Science'};
+function shuffle(list){const a=[...list];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2400);}
+function getBest(key,mode){try{return JSON.parse(localStorage.getItem(`quiznova-best-${key}-${mode}`)||'null');}catch{return null;}}
+function saveBest(key,mode,result){const old=getBest(key,mode);if(!old||result.score>old.score||(result.score===old.score&&result.percent>old.percent)){localStorage.setItem(`quiznova-best-${key}-${mode}`,JSON.stringify(result));return true;}return false;}
+function refreshBests(){for(const key of Object.keys(quizData)){let best=null;for(const mode of ['easy','medium','hard']){const r=getBest(key,mode);if(r&&(!best||r.score>best.score))best=r;}const el=$(`best-${key}`);el.textContent=best?`🏆 Best: ${best.score}/20 (${best.percent}%)`:'🏆 Best: Not played yet';}}
+function stopTimer(){if(timerId!==null){clearInterval(timerId);timerId=null;}}
+function hidePanels(){['setup','quiz','results'].forEach(id=>$(id).style.display='none');}
+function home(){stopTimer();hidePanels();$('intro').classList.remove('hidden');$('categories').classList.remove('hidden');$('how').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
+function openSetup(key){activeKey=key;activeMode='medium';$('setupCategory').textContent=names[key];document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===activeMode));hidePanels();$('intro').classList.add('hidden');$('categories').classList.add('hidden');$('how').classList.add('hidden');$('setup').style.display='block';$('setup').scrollIntoView({behavior:'smooth',block:'center'});}
+function chooseMode(mode){activeMode=mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));}
+function choosePool(){const pool=quizData[activeKey];let chosen=[];if(activeMode==='easy'){chosen=[...shuffle(pool.filter(q=>q.level==='easy')).slice(0,10),...shuffle(pool.filter(q=>q.level==='medium')).slice(0,10)];}else if(activeMode==='medium'){chosen=[...shuffle(pool.filter(q=>q.level==='easy')).slice(0,5),...shuffle(pool.filter(q=>q.level==='medium')).slice(0,10),...shuffle(pool.filter(q=>q.level==='hard')).slice(0,5)];}else{chosen=shuffle(pool.filter(q=>q.level==='hard')).slice(0,20);}return shuffle(chosen).map(item=>({...item,options:shuffle([{text:item.correct,isCorrect:true},...item.wrong.map(text=>({text,isCorrect:false}))])}));}
+function startQuiz(){activeQuestions=choosePool();if(activeQuestions.length!==20){toast('Question bank issue. Please try again.');return;}current=0;score=0;hidePanels();$('quiz').style.display='block';renderQuestion();$('quiz').scrollIntoView({behavior:'smooth',block:'start'});}
+function renderQuestion(){stopTimer();answered=false;const item=activeQuestions[current];$('categoryLabel').textContent=`${names[activeKey]} · ${activeMode.toUpperCase()}`;$('questionMeta').textContent=`QUESTION ${current+1} OF ${activeQuestions.length}`;$('questionTitle').textContent=item.q;$('progressFill').style.width=`${(current/activeQuestions.length)*100}%`;$('progressTrack').setAttribute('aria-valuenow',String(Math.round(current/activeQuestions.length*100)));$('feedback').textContent='Choose the best answer.';$('feedback').style.color='var(--muted)';$('nextBtn').classList.add('hidden');const box=$('answers');box.innerHTML='';item.options.forEach((choice,index)=>{const btn=document.createElement('button');btn.className='answer';btn.type='button';btn.textContent=`${String.fromCharCode(65+index)}. ${choice.text}`;btn.addEventListener('click',()=>chooseAnswer(index));box.appendChild(btn);});secondsLeft=20;updateTimer();timerId=setInterval(()=>{secondsLeft--;updateTimer();if(secondsLeft<=0)chooseAnswer(-1);},1000);}
+function updateTimer(){$('timer').textContent=`⏱ ${secondsLeft}s remaining`;$('timer').style.color=secondsLeft<=5?'var(--bad)':'#c5d2e7';}
+function chooseAnswer(index){if(answered)return;answered=true;stopTimer();const item=activeQuestions[current];const buttons=[...$('answers').querySelectorAll('button')];buttons.forEach((btn,i)=>{btn.disabled=true;if(item.options[i].isCorrect)btn.classList.add('correct');else if(i===index)btn.classList.add('wrong');});const correct=index>=0&&item.options[index].isCorrect;if(correct)score++;if(index===-1){$('feedback').textContent=`Time is up. ${item.explain}`;$('feedback').style.color='var(--bad)';}else if(correct){$('feedback').textContent=`✓ Correct! ${item.explain}`;$('feedback').style.color='var(--good)';}else{$('feedback').textContent=`Not quite. ${item.explain}`;$('feedback').style.color='var(--bad)';}$('nextBtn').textContent=current===activeQuestions.length-1?'See my result →':'Next question →';$('nextBtn').classList.remove('hidden');}
+function nextQuestion(){if(!answered)return;current++;if(current<activeQuestions.length)renderQuestion();else showResults();}
+function showResults(){stopTimer();$('quiz').style.display='none';$('results').style.display='block';const total=activeQuestions.length,percent=Math.round(score/total*100),result={score,percent,category:names[activeKey],mode:activeMode};lastResult=result;const isBest=saveBest(activeKey,activeMode,result);$('scoreNumber').textContent=`${score}/${total}`;$('correctStat').textContent=String(score);$('wrongStat').textContent=String(total-score);$('percentStat').textContent=`${percent}%`;$('resultIcon').textContent=percent===100?'🏆':percent>=75?'🚀':percent>=50?'🎉':'💡';$('resultTitle').textContent=percent===100?'Perfect score!':percent>=75?'Excellent work!':percent>=50?'Good effort!':'Keep practising!';$('resultMessage').textContent=percent===100?'Outstanding! You answered every question correctly.':percent>=75?'Excellent result. Try another random set and aim even higher.':percent>=50?'Good progress. Review the explanations and give it another try.':'Every attempt is a chance to learn. Keep going!';$('bestMessage').textContent=isBest?'🏆 New personal best saved on this device!':'Your personal best is saved on this device.';refreshBests();$('results').scrollIntoView({behavior:'smooth',block:'start'});}
+async function shareResult(){if(!lastResult)return;const text=`I scored ${lastResult.score}/20 (${lastResult.percent}%) in ${lastResult.category} on ${lastResult.mode.toUpperCase()} mode at QuizNova by Malik Gulzaib! Try it: ${location.href}`;try{if(navigator.share){await navigator.share({title:'My QuizNova result',text,url:location.href});}else if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);toast('Result copied! Share it with your friends.');}else{window.prompt('Copy your result:',text);}}catch(err){if(err.name!=='AbortError')toast('Sharing was not available on this browser.');}}
+document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>openSetup(btn.dataset.category)));document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>chooseMode(btn.dataset.mode)));$('startChallenge').addEventListener('click',startQuiz);$('closeSetup').addEventListener('click',home);$('exploreBtn').addEventListener('click',()=>$('categories').scrollIntoView({behavior:'smooth'}));$('howBtn').addEventListener('click',()=>$('how').scrollIntoView({behavior:'smooth'}));$('nextBtn').addEventListener('click',nextQuestion);$('exitBtn').addEventListener('click',home);$('retryBtn').addEventListener('click',startQuiz);$('homeBtn').addEventListener('click',home);$('shareBtn').addEventListener('click',shareResult);refreshBests();
+</script>
+</body></html>
